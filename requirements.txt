@@ -1,0 +1,3 @@
+gym>=0.2.3
+gym_pull
+numpy

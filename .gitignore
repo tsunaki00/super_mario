@@ -1,0 +1,6 @@
+__pycache__
+*.swp
+*.pyc
+*.py~
+.DS_Store
+saved_networks/*
