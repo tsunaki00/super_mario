@@ -20,8 +20,8 @@
 You need to install [Tensorflow](https://www.tensorflow.org/)
 
 ```shell
-    $ git clone SuperMarioBros_learning
-    $ cd SuperMarioBros_learning
+    $ git clone https://github.com/tsunaki00/super_mario.git
+    $ cd super_mario
 ```
 
 ```shell
