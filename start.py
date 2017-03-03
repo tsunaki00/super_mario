@@ -47,17 +47,20 @@ class Game :
 
   
   def create_network(self, action_size):
-    W_conv1 = self.weight_variable([3, 3, 1, 8])
-    b_conv1 = self.bias_variable([8])
-    W_conv2 = self.weight_variable([2, 2, 8, 16])
-    b_conv2 = self.bias_variable([16])
+    W_conv1 = self.weight_variable([8, 8, 1, 16])
+    b_conv1 = self.bias_variable([16])
+    W_conv2 = self.weight_variable([4, 4, 16, 32])
+    b_conv2 = self.bias_variable([32])
+    W_conv3 = self.weight_variable([4, 4, 32, 64])
+    b_conv3 = self.bias_variable([64])
     W_fc1 = self.weight_variable([512, action_size])
     b_fc1 = self.bias_variable([action_size])
     s = tf.placeholder("float", [None, 13, 16, 1])
     # hidden layers
-    h_conv1 = tf.nn.relu(self.conv2d(s, W_conv1, 1) + b_conv1)
-    h_conv2 = tf.nn.relu(self.conv2d(W_conv1, W_conv2, 2) + b_conv2)
-    h_conv3_flat = tf.reshape(W_conv2, [-1, 512])
+    h_conv1 = tf.nn.relu(self.conv2d(s, W_conv1, 2) + b_conv1)
+    h_conv2 = tf.nn.relu(self.conv2d(h_conv1, W_conv2, 1) + b_conv2)
+    h_conv3 = tf.nn.relu(self.conv2d(h_conv2, W_conv3, 1) + b_conv3)
+    h_conv3_flat = tf.reshape(h_conv3, [-1, 512])
     readout = tf.matmul(h_conv3_flat, W_fc1) + b_fc1
     return s, readout 
 
@@ -94,7 +97,7 @@ class Game :
       actions, rewards, images = [], [] ,[]
       while is_finished == False :
         screen = np.reshape(self.env.tiles, (13, 16, 1))
-        if episode < 10 :
+        if episode < 1 :
           action_index = random.randint(0, len(action_list) - 1)
         else :
           readout_t = readout.eval(feed_dict = {s : [screen]})[0]
